@@ -8,6 +8,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: fontist/setup-fontist@v2
+      - run: fontist install "Source Serif 4"
+      - run: fontist install "STIX Two Math"
       - uses: typst-community/setup-typst@v4
       - name: Compile examples
         run: |
