@@ -15,3 +15,17 @@ jobs:
           typst compile examples/short/main.typ examples/short/main.pdf --root .
       - name: Compile the documentation
         run: typst compile doc/doc.typ doc/doc.pdf --root .
+
+      - name: Set Git user name and email
+        run: |
+          git config --global user.email "${{ github.actor }}@users.noreply.github.com"
+          git config --global user.name "${{ github.actor }}"
+
+      - name: Add, commit and push changes
+        if: github.actor != 'GitHub Actions'
+        run: |
+          git add examples/long/main.pdf
+          git add examples/short/main.pdf
+          git add doc/doc.pdf
+          git commit -m "Automatic: Update PDFs" || echo "No changes to commit"
+          git push
