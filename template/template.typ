@@ -34,6 +34,10 @@
   ///
   /// -> str | array
   math-font: ("STIX Two Math", "New Computer Modern Math"),
+  /// The font to use for the raw text.
+  ///
+  /// -> str | array
+  raw-font: ("Source Code Pro", "Libertinus Mono"),
   /// The font to use for the text in titles.
   /// If none, the text font will be used.
   ///
@@ -72,6 +76,7 @@
     lang: "en",
     region: "GB",
   )
+  show raw: set text(font: raw-font)
 
   // Header with title and authors
   set page(

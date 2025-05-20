@@ -60,6 +60,7 @@
           radius: 4pt,
           breakable: true,
         )
+        show raw.where(block: true): set align(start)
         body
       }
     }
