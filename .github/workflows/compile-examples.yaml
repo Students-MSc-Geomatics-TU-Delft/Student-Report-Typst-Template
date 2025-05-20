@@ -4,7 +4,7 @@ on:
     branches:
       - main
 jobs:
-  install-fonts:
+  render-pdfs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -13,17 +13,13 @@ jobs:
       # - run: fontist install "STIX Two Math"
       - name: Install Google Fonts
         run: |
-          wget -O Source_Serif_4.zip https://fonts.google.com/download/list?family=Source%20Serif%204
+          wget -O Source_Serif_4.zip https://fonts.google.com/download?family=Source%20Serif%204
           unzip -d source_serif_4/ Source_Serif_4.zip
           mv source_serif_4 /usr/share/fonts/
           wget -O STIX_Two_Math.zip https://github.com/stipub/stixfonts/raw/refs/heads/master/zipfiles/variable_ttf.zip
           unzip -d stix_two_math/ STIX_Two_Math.zip
           mv stix_two_math /usr/share/fonts/
           fc-cache -fv
-  render-pdfs:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
       - uses: typst-community/setup-typst@v4
       - name: Compile examples
         run: |
