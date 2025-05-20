@@ -1,0 +1,17 @@
+name: Render examples
+on:
+  push:
+    branches:
+      - main
+jobs:
+  render-examples:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: typst-community/setup-typst@v4
+      - name: Compile examples
+        run: |
+          typst compile examples/long/main.typ examples/long/main.pdf --root .
+          typst compile examples/short/main.typ examples/short/main.pdf --root .
+      - name: Compile the documentation
+        run: typst compile doc/doc.typ doc/doc.pdf --root .

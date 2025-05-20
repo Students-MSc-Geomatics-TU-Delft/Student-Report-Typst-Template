@@ -1,0 +1,18 @@
+ledoux_typst_template:
+  type: repository
+  author: 
+    - name: Ledoux
+      given-name: Hugo
+  title: Typst Template for MSc Geomatics Thesis
+  date: 2025-05
+  url: https://github.com/hugoledoux/msc_geomatics_thesis_typst
+  language: en
+versatile_apa_typst_template:
+  type: repository
+  author:
+    - name: Ovando
+      given-name: Jassiel
+  title: "Comprehensive APA 7th Edition Style Template for Typst, suitable for both student and professional papers."
+  date: 2024-11-04
+  url: https://typst.app/universe/package/versatile-apa
+  language: en
