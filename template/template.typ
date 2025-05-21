@@ -1,4 +1,4 @@
-#import "utils.typ": _combine-supplement-numbering, _process-heading-attributes
+#import "utils.typ": _combine-supplement-numbering, _process-heading-attributes, format-authors-data
 
 #import "@preview/numbly:0.1.0"
 
@@ -18,7 +18,7 @@
   title: "",
   /// The names of the authors.
   ///
-  /// -> array
+  /// -> array | str
   authors-names: (),
   /// The data of the authors. Can contain any number for (key, value) pairs.
   /// The key is a string and the value is an array of strings.
@@ -61,7 +61,14 @@
   /// -> bool
   _documentation: false,
 ) = {
+  // Format the input arguments
   headings-font = if headings-font == none { text-font } else { headings-font }
+  let formatted-authors = format-authors-data(
+    authors-data: authors-data,
+    authors-names: authors-names,
+  )
+  authors-names = formatted-authors.authors-names
+  authors-data = formatted-authors.authors-data
 
   // Document basic properties
   set document(author: authors-names, title: title) if not _documentation

@@ -59,3 +59,21 @@
   }
   real-attributes
 }
+
+#let format-authors-data(
+  authors-data: (:),
+  authors-names: (),
+) = {
+  if type(authors-names) != array {
+    authors-names = (authors-names,)
+  }
+  for key in authors-data.keys() {
+    if type(authors-data.at(key)) != array {
+      authors-data.at(key) = (authors-data.at(key),)
+    }
+  }
+  return (
+    authors-names: authors-names,
+    authors-data: authors-data,
+  )
+}

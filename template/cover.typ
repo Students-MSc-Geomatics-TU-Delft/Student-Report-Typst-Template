@@ -1,3 +1,5 @@
+#import "utils.typ": format-authors-data
+
 #let reshape-authors-data(
   authors-data: (:),
   authors-names: (),
@@ -179,9 +181,12 @@
   if not alignment in (left, center, right, start, end) {
     panic("Invalid alignment value. Use left, center, or right.")
   }
-  if type(authors-names) == str {
-    authors-names = (authors-names,)
-  }
+  let formatted-authors = format-authors-data(
+    authors-data: authors-data,
+    authors-names: authors-names,
+  )
+  authors-names = formatted-authors.authors-names
+  authors-data = formatted-authors.authors-data
   let authors-display = if alignment == center {
     authors-centered(
       authors-names: authors-names,
