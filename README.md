@@ -18,7 +18,7 @@ This template is designed to be easy to use but also very customisable. For this
 
 ## Issues / Improvements
 
-There are no known issues with the template. However, it is possible that some combinations or arguments don't work well together. If you find any issues, please open an issue or a pull request on the [GitHub repository](https://github.com/ZokszY/Student-Report-Template) of the template. You can also suggest improvements or new features.
+There are no known issues with the template. However, it is possible that some combinations or arguments don't work well together. If you find any issues, please open an [issue](https://github.com/Students-MSc-Geomatics-TU-Delft/Student-Report-Typst-Template/issues/new) or a pull request. You can also suggest improvements or new features.
 
 Here are some ideas for improvements:
 
