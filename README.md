@@ -15,3 +15,17 @@ To use it, you should copy the content of the `template` folder to your own proj
 To learn more about the arguments of the different functions in the template, you can check the [documentation](doc/doc.pdf).
 
 This template is designed to be easy to use but also very customisable. For this, you will need to know a bit about Typst. If you are not familiar with it, you can check the [Typst documentation](https://typst.app/docs/) to learn more about it.
+
+## Issues / Improvements
+
+There are no known issues with the template. However, it is possible that some combinations or arguments don't work well together. If you find any issues, please open an issue or a pull request on the [GitHub repository](https://github.com/ZokszY/Student-Report-Template) of the template. You can also suggest improvements or new features.
+
+Here are some ideas for improvements:
+
+- Usability:
+  - Improve the organisation to make the template easier to initialise
+  - Register it as a Typst template to get access to the `typst init` command?
+- Features:
+  - Add more customisation of the header and footer,
+  - Add more customisation of the cover page (subtitle, logos, other ideas?),
+- Other ideas?
