@@ -1,4 +1,6 @@
-#import "utils.typ": _combine-supplement-numbering, _process-heading-attributes, format-authors-data
+#import "utils.typ": (
+  _combine-supplement-numbering, _process-heading-attributes, format-authors-data, grid-align-left-center-right,
+)
 
 #import "@preview/numbly:0.1.0"
 
@@ -16,9 +18,13 @@
   ///
   /// -> str | content
   title: "",
+  /// The subtitle of the document.
+  ///
+  /// -> str | content
+  subtitle: "",
   /// The names of the authors.
   ///
-  /// -> array | str
+  /// -> array | str | content
   authors-names: (),
   /// The data of the authors. Can contain any number for (key, value) pairs.
   /// The key is a string and the value is an array of strings.
@@ -52,6 +58,10 @@
   ///
   /// -> length
   base-font-size: 11pt,
+  /// The content of the header.
+  ///
+  /// -> length
+  header: (left: "[title]", center: none, right: "[subtitle]"),
   /// The default page numbering style to use.
   ///
   /// -> str | function
@@ -71,7 +81,14 @@
   authors-data = formatted-authors.authors-data
 
   // Document basic properties
-  set document(author: authors-names, title: title) if not _documentation
+  let authors-names-str = authors-names.map(t => if type(t) == content {
+    t.text
+  } else if type(t) == str {
+    t
+  } else {
+    panic("authors-names must be an array of strings or content")
+  })
+  set document(author: authors-names-str, title: title, description: subtitle) if not _documentation
 
   // Make paragraphs justified
   set par(justify: true)
@@ -83,15 +100,34 @@
     lang: "en",
     region: "GB",
   )
-  show raw: set text(font: raw-font)
+  show raw: set text(
+    font: raw-font,
+    size: (base-font-size - 2pt) * font-size-multiplier,
+    weight: 400,
+  )
 
   // Header with title and authors
+  let header-possible-keys = ("left", "center", "right")
+  for key in header.keys() {
+    if key not in header-possible-keys {
+      panic("The only available keys for the header are " + header-possible-keys.join(", ", last: " and ") + ".")
+    }
+  }
+  let replacements = (
+    "[title]": title,
+    "[subtitle]": subtitle,
+    "[authors]": authors-names-str.join(", "),
+  )
+  for key in header-possible-keys {
+    if header.at(key) == none { continue }
+    for (old, new) in replacements {
+      header.at(key) = header.at(key).replace(old, if new != none { new } else { "" })
+    }
+  }
   set page(
     header: [
       #set text((base-font-size - 3pt) * font-size-multiplier)
-      #title
-      #h(1fr)
-      #authors-names.join(", ")
+      #grid-align-left-center-right(header)
     ],
     numbering: page-numbering,
   ) if not _documentation
@@ -107,12 +143,10 @@
     counter(math.equation).update(0)
     it
   }
-  set math.equation(
-    numbering: n => {
-      let h1 = counter(heading).get().first()
-      numbering("(1.1)", h1, n)
-    },
-  )
+  set math.equation(numbering: n => {
+    let h1 = counter(heading).get().first()
+    numbering("(1.1)", h1, n)
+  })
 
   // To be able to cite elements without numbering (for the annex for example)
   show ref: it => context {
@@ -224,6 +258,7 @@
 ///   #show: cover-container.with(_documentation: true)
 ///   #cover.cover(
 ///     title: "Title of the Document",
+///     subtitle: "Subtitle",
 ///     authors-names: ("Lorem Ipsum", "Dolor Sit", "Amet Consectetur"),
 ///     authors-data: (
 ///       "Student IDs": ("1234567", "9876543", "7654321"),
@@ -233,7 +268,6 @@
 ///         "amet.consectetur@email.com",
 ///       ),
 ///     ),
-///     alignment: center,
 ///     date: datetime.today(),
 ///     _documentation: true,
 ///   )
@@ -338,9 +372,9 @@
         let nring = numberings.at(level - 1)
         let new-supplement = supplements.at(level - 1)
         show heading.where(level: level): set heading(numbering: nring)
-        show heading.where(level: level): set heading(
-          supplement: it => if nring == none { it.body } else { new-supplement },
-        )
+        show heading.where(level: level): set heading(supplement: it => if nring == none { it.body } else {
+          new-supplement
+        })
         body
       }
     }
@@ -359,13 +393,10 @@
     }
     counter(page).update(1)
   }
-  set page(
-    numbering: page-numbering,
-    footer: context [
-      #set align(center)
-      #set text(8pt)
-      #numbering(page-numbering, ..counter(page).get())],
-  ) if reset-page-numbering
+  set page(numbering: page-numbering, footer: context [
+    #set align(center)
+    #set text(8pt)
+    #numbering(page-numbering, ..counter(page).get())]) if reset-page-numbering
 
   body
 }

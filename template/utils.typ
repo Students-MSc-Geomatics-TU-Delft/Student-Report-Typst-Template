@@ -67,6 +67,9 @@
   if type(authors-names) != array {
     authors-names = (authors-names,)
   }
+  if authors-data in (none, ()) {
+    authors-data = (:)
+  }
   for key in authors-data.keys() {
     if type(authors-data.at(key)) != array {
       authors-data.at(key) = (authors-data.at(key),)
@@ -76,4 +79,38 @@
     authors-names: authors-names,
     authors-data: authors-data,
   )
+}
+
+/// Function that creates a grid that aligns up to 3 elements, with one on the left, one in the center and one on the right. Any combination of 1, 2 or 3 of those is possible.
+///
+/// ->
+#let grid-align-left-center-right(
+  /// The elements to align in the grid.
+  /// The dictionary must contain at least one of the following keys: left, center, right.
+  ///
+  /// -> any
+  elements,
+) = {
+  let elems = (
+    left: elements.at("left", default: none),
+    center: elements.at("center", default: none),
+    right: elements.at("right", default: none),
+  )
+  let lcr = (elems.left, elems.center, elems.right)
+  if elems.center != none and (elems.left != none or elems.right != none) {
+    grid(
+      columns: (1fr, 1fr, 1fr),
+      align: (left, center, right),
+      [#elems.left], [#elems.center], [#elems.right],
+    )
+  } else {
+    let left-col = if elems.left == none { 0em } else { 1fr }
+    let center-col = if elems.center == none { 0em } else { 1fr }
+    let right-col = if elems.right == none { 0em } else { 1fr }
+    grid(
+      columns: (left-col, center-col, right-col),
+      align: (left, center, right),
+      [#elems.left], [#elems.center], [#elems.right],
+    )
+  }
 }

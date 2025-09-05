@@ -1,4 +1,4 @@
-#import "../../other-tools/styled-blocks.typ": block-todo, block-discussion, styled-block
+#import "../../other-tools/styled-blocks.typ": block-discussion, block-todo, styled-block
 #import "@preview/subpar:0.2.1"
 
 // // Uncomment the following line to hide the comments in the final document
@@ -15,7 +15,7 @@
 
 == Figures
 
-To learn about figures, you can refer to the #link("https://typst.app/docs/reference/model/figure/")[documentation].
+To learn about figures, you can refer to the #link("https://typst.app/docs/reference/model/figure/")[Typst documentation].
 
 === Tables
 
@@ -53,6 +53,7 @@ You can refer to figures like @figure-art-subjective but also to sub-figures lik
     ),
     caption: [Emptiness is a form of art.],
   ),
+
   figure(
     rect(
       height: 8%,
@@ -60,13 +61,14 @@ You can refer to figures like @figure-art-subjective but also to sub-figures lik
     ),
     caption: [A very nice piece of art.],
   ),
+
   caption: [Art is subjective.],
   label: <figure-art-subjective>,
 )
 
 == Math
 
-To learn about math, you can refer to the #link("https://typst.app/docs/reference/math/")[documentation].
+To learn about math, you can refer to the #link("https://typst.app/docs/reference/math/")[Typst documentation].
 
 A famous equation is shown below.
 
@@ -108,7 +110,12 @@ Typst doesn't really support comments, so we created styled blocks to add commen
 #block-todo[Don't forget][Something to do.]
 #block-discussion[Talk to people][A discussion about something.]
 
-When you want to render the final document, you can either remove them or hide them by setting the `HIDE-COMMENTS` variable to `true` in `other-tools/styled-blocks.typ`.
+When you want to render the final document, you can either remove them or hide them by putting the following snippet at the top of the document:
+
+```typst
+#let block-todo = block-todo.with(render: false)
+#let block-discussion = block-discussion.with(render: false)
+```
 
 = Using this Template
 
@@ -123,13 +130,3 @@ When you want to render the final document, you can either remove them or hide t
 = Other Typst Templates
 
 This template was inspired from #cite(<ledoux_typst_template>, form: "prose") who made a Typst template for the theses of Geomatics students at TU Delft, and from #cite(<versatile_apa_typst_template>, form: "prose") who made a Typst template for the APA style. If you want a fully APA-compliant template, you should use @versatile_apa_typst_template.
-
-= Issues / Improvements
-
-There are no known issues with the template. However, it is possible that some combinations or arguments don't work well together. If you find any issues, please open an issue or a pull request on the #link("https://github.com/ZokszY/Student-Report-Template")[GitHub repository] of the template. You can also suggest improvements or new features.
-
-Here are some ideas for improvements:
-
-- Add more customisation of the header and footer,
-- Add more customisation of the cover page,
-- ...

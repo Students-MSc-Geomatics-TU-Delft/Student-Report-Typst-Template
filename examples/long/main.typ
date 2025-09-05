@@ -1,12 +1,7 @@
 #import "../../template/template-long.typ": (
-  init,
-  cover-container,
-  pre-content-container,
-  main-content-container,
-  post-content-container,
-  appendix-container,
+  appendix-container, cover-container, init, main-content-container, post-content-container, pre-content-container,
 )
-#import "../../template/cover.typ"
+#import "../../template/cover.typ" as cover
 
 #import "../../other-tools/custom-style.typ"
 
@@ -15,8 +10,9 @@
 /* -------------------------------------------------------------------------- */
 
 /* ---------------------------- Document settings --------------------------- */
-#let title = "The Art of Emptiness - A Journey into the Void"
-#let authors-names = ("Author 1", "Author 2", "Author 3")
+#let title = "The Art of Emptiness"
+#let subtitle = "A Journey into the Void"
+#let authors-names = ("Lorem Ipsum", "Dolor Sit", "Amet Consectetur")
 #let authors-data = (
   "Student IDs": ("1234567", "9876543", "7654321"),
   "Email": (
@@ -32,11 +28,16 @@
 
 #show: init.with(
   title: title,
+  subtitle: subtitle,
   authors-names: authors-names,
   authors-data: authors-data,
-  // text-font: ("Source Serif 4", "Libertinus Serif"),
+  text-font: ("Source Serif 4", "Libertinus Serif"),
   // math-font: ("STIX Two Math", "New Computer Modern Math"),
 )
+
+/* -------------------------------------------------------------------------- */
+/*                      Custom styling for this document                      */
+/* -------------------------------------------------------------------------- */
 
 #show: custom-style.custom-style
 
@@ -44,13 +45,79 @@
 
 #[
   #show: cover-container.with(full-page: true)
+  // Cover
+  #set page(background: image("../images/Cover-image-2.jpg", width: 100%, height: 100%), margin: 1em)
+  #let title-content = cover.cover-group(
+    contents: (
+      cover.cover-text-block(
+        cover.cover-group(
+          contents: (
+            text(title, size: 46pt, weight: 400, fill: white),
+            text(subtitle, size: 34pt, weight: 300, style: "italic", fill: white),
+            text(
+              cover.authors-grid(
+                alignment: left,
+                authors-data: (:),
+                authors-names: authors-names,
+                row-gutter: 0.9em,
+                header: false,
+              ),
+              size: 20pt,
+              fill: white,
+            ),
+          ),
+          spaces: (1em, 2em, 4em, 1em),
+          dir: "v",
+          alignments: (left, left, left),
+        ),
+        alignment: left,
+        background-color: luma(20%, 70%),
+        background-top-space: 3em,
+        background-bottom-space: 2em,
+        background-left-space: 5em,
+        background-right-space: 20em,
+      ),
+    ),
+    spaces: (2em, 1fr),
+    dir: "h",
+    alignments: (left,),
+  )
+  #let logos-content = cover.cover-image-block(
+    cover.cover-group(
+      contents: (
+        image("../images/TU_Delft_Logos/TUDelft_logo_white-cropped.svg", height: 2.5cm),
+        image("../images/Typst.svg", height: 1.5cm),
+      ),
+      spaces: (2em, 2fr, 2em),
+      dir: "h",
+      alignments: (left + bottom, right + bottom),
+    ),
+  )
+  #cover.cover-group(
+    contents: (title-content, logos-content),
+    spaces: (8em, 1fr, 1em),
+    dir: "v",
+    alignments: (left, center),
+  )
+
+  ///// Back of the cover
+  #set page(background: none, margin: auto)
   #cover.cover(
+    full-page: true,
     title: title,
+    subtitle: subtitle,
     authors-names: authors-names,
     authors-data: authors-data,
-    full-page: true,
-    alignment: center,
+    logos: (
+      image("../images/TU_Delft_Logos/TUDelft_logo_cmyk-cropped.svg", height: 2cm),
+      image("../images/Typst.svg", height: 1cm),
+    ),
     date: datetime.today(),
+    other-content: text(
+      [Template: #link("https://github.com/Students-MSc-Geomatics-TU-Delft/Student-Report-Typst-Template")[Student Report Typst Template] by Alexandre Bry],
+      size: 14pt,
+      style: "italic",
+    ),
   )
 ]
 

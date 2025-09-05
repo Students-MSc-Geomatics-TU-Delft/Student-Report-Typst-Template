@@ -28,4 +28,13 @@ Here are some ideas for improvements:
 - Features:
   - Add more customisation of the header and footer,
   - Add more customisation of the cover page (subtitle, logos, other ideas?),
+- Create specific functions and styles for files?
 - Other ideas?
+
+## Inspiration
+
+This template was inspired from other templates:
+
+- [Typst Template for MSc Geomatics Thesis](https://github.com/hugoledoux/msc_geomatics_thesis_typst) by Hugo Ledoux
+- [TU Delft Report/Thesis Template](https://www.overleaf.com/latex/templates/tu-delft-report-slash-thesis-template/swythjmksywm) by Daan Zwaneveld
+- [Comprehensive APA 7th Edition Style Template for Typst, suitable for both student and professional papers](https://typst.app/universe/package/versatile-apa) by Jassiel Ovando

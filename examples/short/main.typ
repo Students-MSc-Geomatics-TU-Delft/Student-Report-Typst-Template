@@ -1,10 +1,5 @@
 #import "../../template/template-short.typ": (
-  init,
-  cover-container,
-  pre-content-container,
-  main-content-container,
-  post-content-container,
-  appendix-container,
+  appendix-container, cover-container, init, main-content-container, post-content-container, pre-content-container,
 )
 #import "../../template/cover.typ"
 
@@ -15,8 +10,9 @@
 /* -------------------------------------------------------------------------- */
 
 /* ---------------------------- Document settings --------------------------- */
-#let title = "Assignment 43 - Intriguing Geomatics Assignment"
-#let authors-names = ("Author 1", "Author 2", "Author 3")
+#let title = "The Art of Emptiness"
+#let subtitle = "A Journey into the Void"
+#let authors-names = ("Lorem Ipsum", "Dolor Sit", "Amet Consectetur")
 #let authors-data = (
   "Student IDs": ("1234567", "9876543", "7654321"),
   "Email": (
@@ -32,6 +28,7 @@
 
 #show: init.with(
   title: title,
+  subtitle: subtitle,
   authors-names: authors-names,
   authors-data: authors-data,
   // text-font: ("Source Serif 4", "Libertinus Serif"),
@@ -46,10 +43,10 @@
   #show: cover-container.with(full-page: false)
   #cover.cover(
     title: title,
+    subtitle: subtitle,
     authors-names: authors-names,
     authors-data: authors-data,
     full-page: false,
-    alignment: center,
     date: datetime.today(),
   )
 ]

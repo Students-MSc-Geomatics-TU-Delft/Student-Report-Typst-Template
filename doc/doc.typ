@@ -4,7 +4,15 @@
 #import "../template/template-long.typ"
 #import "../template/cover.typ"
 
-#show: template-long.init
+#let title = "Documentation of the Template"
+#let subtitle = "Conventions, functions and attributes"
+#let authors-names = "Alexandre Bry"
+
+#show: template-long.init.with(
+  title: title,
+  subtitle: subtitle,
+  authors-names: authors-names,
+)
 #show: custom-style.custom-style.with(raw-background: none)
 
 #show ref: it => {
@@ -21,13 +29,7 @@
 
 #[
   #show: template-long.cover-container
-  #cover.cover(
-    title: "Documentation of the Template",
-    authors-names: "Alexandre Bry",
-    authors-data: (:),
-    alignment: center,
-    date: datetime.today(),
-  )
+  #cover.cover(title: title, subtitle: subtitle, authors-names: authors-names, date: datetime.today())
 ]
 
 #[
@@ -55,7 +57,12 @@
 
   = Template
 
-  The template functions are defined in `template/template.typ`. However, to make it easier to switch between a "long" report and a "short" assignment submission, we created two sub-versions `template/template-long.typ` and `template/template-short.typ` that use the same functions but with different default values. Therefore, all the functions mentioned below can be imported from any of these files with the same capabilities, except the default values will be better suited for the type of document you are writing.
+  The template functions are defined in `template/template.typ`. However, to make it easier to switch between a "long" report and a "short" assignment submission, we created two sub-versions:
+
+  - `template/template-long.typ` for long reports
+  - `template/template-short.typ` for short reports
+
+  Both use the same functions but with different default values. Therefore, all the functions mentioned below can be imported from any of these files with the same capabilities, except the default values will be better suited for the type of document you are writing.
 
   Here are the functions available in `template/template.typ`:
 
