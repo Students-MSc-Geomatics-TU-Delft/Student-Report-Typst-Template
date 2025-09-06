@@ -33,6 +33,7 @@
 #let authors-centered(
   authors-names: (),
   authors-data: (:),
+  max-columns: 2,
   row-gutter: 0.5em,
 ) = {
   let authors-data-reshaped = _reshape-authors-data(
@@ -45,15 +46,17 @@
     return
   }
 
-  let cols = calc.min(2, authors-len)
+  let cols = calc.min(max-columns, authors-len)
   let rows = calc.ceil(authors-len / cols)
   let final-row-cols = calc.rem-euclid(authors-len, cols)
   if final-row-cols == 0 { final-row-cols = cols }
-  let actual-cols = calc.lcm(cols, final-row-cols)
+  // let actual-cols = calc.lcm(cols, final-row-cols)
+  let actual-cols = 2 * cols
   let grid-content = ()
 
   // Create the cells of the grid (except the last row).
-  let colspan = calc.div-euclid(actual-cols, cols)
+  // let colspan = calc.div-euclid(actual-cols, cols)
+  let colspan = 2
   for row in range(0, rows - 1) {
     for col in range(0, cols) {
       let index = row * cols + col
@@ -61,12 +64,16 @@
     }
   }
   // Create the last row of the grid.
-  let colspan = calc.div-euclid(actual-cols, final-row-cols)
+  // let colspan = calc.div-euclid(actual-cols, final-row-cols)
+  let colspan = 2
+  let empty-cols = calc.div-euclid(actual-cols - colspan * final-row-cols, 2)
   let row = rows - 1
+  if empty-cols > 0 { grid-content.push(grid.cell(colspan: empty-cols, [])) }
   for col in range(0, final-row-cols) {
     let index = row * cols + col
     grid-content.push(grid.cell(colspan: colspan, _author-column(authors-data-reshaped.at(index))))
   }
+  if empty-cols > 0 { grid-content.push(grid.cell(colspan: empty-cols, [])) }
 
   grid(
     columns: (1fr,) * actual-cols,

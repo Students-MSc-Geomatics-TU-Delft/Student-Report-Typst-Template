@@ -45,15 +45,19 @@
 
 #[
   #show: cover-container.with(full-page: true)
-  // Cover
+  ///// Cover
   #set page(background: image("../images/Cover-image-2.jpg", width: 100%, height: 100%), margin: 1em)
+  // Title
   #let title-content = cover.cover-group(
     contents: (
       cover.cover-text-block(
         cover.cover-group(
           contents: (
+            // Title
             text(title, size: 46pt, weight: 400, fill: white),
+            // Subtitle
             text(subtitle, size: 34pt, weight: 300, style: "italic", fill: white),
+            // Authors
             text(
               cover.authors-grid(
                 alignment: left,
@@ -68,20 +72,24 @@
           ),
           spaces: (1em, 2em, 4em, 1em),
           dir: "v",
-          alignments: (left, left, left),
+          individual-alignments: (left, left, left),
+          general-alignment: left,
+          perpendicular-space: auto,
         ),
         alignment: left,
         background-color: luma(20%, 70%),
-        background-top-space: 3em,
-        background-bottom-space: 2em,
-        background-left-space: 5em,
-        background-right-space: 20em,
+        // background-top-space: 3em,
+        // background-bottom-space: 2em,
+        // background-left-space: 5em,
+        // background-right-space: 20em,
       ),
     ),
-    spaces: (2em, 1fr),
+    spaces: (2em, 10em),
     dir: "h",
-    alignments: (left,),
+    individual-alignments: (right,),
+    general-alignment: left,
   )
+  // Logos
   #let logos-content = cover.cover-image-block(
     cover.cover-group(
       contents: (
@@ -90,14 +98,15 @@
       ),
       spaces: (2em, 2fr, 2em),
       dir: "h",
-      alignments: (left + bottom, right + bottom),
+      individual-alignments: (left + bottom, right + bottom),
+      general-alignment: center,
     ),
   )
   #cover.cover-group(
     contents: (title-content, logos-content),
     spaces: (8em, 1fr, 1em),
     dir: "v",
-    alignments: (left, center),
+    individual-alignments: (left, center),
   )
 
   ///// Back of the cover

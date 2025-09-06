@@ -1,7 +1,15 @@
 #import "cover-utils.typ": authors-centered, authors-grid, background-box
 #import "utils.typ": format-authors-data
 
-#let cover-group(contents: (), spaces: (1fr,), dir: "v", alignments: ()) = {
+#let cover-group(
+  contents: (),
+  spaces: (1fr,),
+  dir: "v",
+  individual-alignments: (),
+  general-alignment: center,
+  stroke: none,
+  perpendicular-space: 1fr,
+) = {
   // Check the correctness of the content and spaces arguments
   if type(contents) != array {
     panic("The contents argument of cover-group should be an array.")
@@ -9,14 +17,14 @@
   if type(spaces) != array {
     panic("The spaces argument of cover-group should be an array.")
   }
-  if type(alignments) != array {
-    panic("The alignments argument of cover-group should be an array.")
+  if type(individual-alignments) != array {
+    panic("The individual-alignments argument of cover-group should be an array.")
   }
   if spaces.len() != contents.len() + 1 {
     panic("The spaces argument of cover-group should have exactly one more element than contents.")
   }
-  if contents.len() != alignments.len() {
-    panic("The contents argument of cover-group should have exactly the same size as alignments.")
+  if contents.len() != individual-alignments.len() {
+    panic("The contents argument of cover-group should have exactly the same size as individual-alignments.")
   }
 
   // Select the correct direction for the group
@@ -32,12 +40,21 @@
     panic("The dir argument of cover-group should either be \"v\" or \"h\".")
   }
 
-  let full-content = (space-func(spaces.at(0)),)
+  // let full-content = (space-func(spaces.at(0)),)
+  let formatted-contents = ()
   for i in range(contents.len()) {
-    full-content.push(align(alignments.at(i), contents.at(i)))
-    full-content.push(space-func(spaces.at(i + 1)))
+    formatted-contents.push(align(individual-alignments.at(i), contents.at(i)))
   }
-  stack(dir: stack-dir, ..full-content)
+  let grid-params = if dir == "h" {
+    (
+      columns: (0em,) + (auto,) * formatted-contents.len() + (0em,),
+      column-gutter: spaces,
+    )
+  } else {
+    (columns: perpendicular-space, row-gutter: spaces)
+  }
+  let alignments = (left,) + individual-alignments + (left,)
+  align(general-alignment, grid(align: alignments, ..grid-params, [], ..formatted-contents, [], stroke: stroke))
 }
 
 
@@ -136,6 +153,10 @@
   ///
   /// -> dictionary
   authors-data: (:),
+  /// The maximum number of columns to display the authors
+  ///
+  /// -> int
+  authors-max-columns: 2,
   /// The date to be displayed on the cover page.
   /// If not provided, the current date is used.
   ///
@@ -184,6 +205,7 @@
     authors-centered(
       authors-data: authors-data,
       authors-names: authors-names,
+      max-columns: authors-max-columns,
       row-gutter: 2em,
     ),
     size: 14pt,
@@ -221,6 +243,7 @@
   }
 
   // Logos
+  if type(logos) != array { logos = (logos,) }
   if logos != none {
     let logos-spaces = (1fr,) + (3fr,) * (logos.len() - 1) + (1fr,)
     let logos-alignments = (center + bottom,) * logos.len()
@@ -229,7 +252,7 @@
         contents: logos,
         spaces: logos-spaces,
         dir: "h",
-        alignments: logos-alignments,
+        individual-alignments: logos-alignments,
       ),
     )
     all-contents.logos = logos-content
@@ -256,7 +279,7 @@
     contents: order-contents,
     spaces: order-spaces,
     dir: "v",
-    alignments: order-alignments,
+    individual-alignments: order-alignments,
   )
 }
 
