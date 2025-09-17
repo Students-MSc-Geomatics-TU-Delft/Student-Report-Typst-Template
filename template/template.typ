@@ -351,7 +351,7 @@
 ) = {
   // Page breaks before level 1 headings
   show heading.where(level: 1): it => {
-    if h1-new-page { colbreak(weak: true) }
+    if h1-new-page { pagebreak(weak: true) }
     it
   }
 
