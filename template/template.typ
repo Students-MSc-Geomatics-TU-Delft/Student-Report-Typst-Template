@@ -183,8 +183,15 @@
       // Normal reference if the reference is in the same heading
       if current-heading == heading-of-ref { return it }
       // Otherwise, add the heading of the reference
+      // Make sure to remove the trailing punctuation from the numbering
       let count = counter(heading).at(heading-of-ref.location())
+      let next-count = count.map(it => it + 1)
       let num = numbering(heading-of-ref.numbering, ..count)
+      let next-num = numbering(heading-of-ref.numbering, ..next-count)
+      while (num.last() == next-num.last()) {
+        num = num.slice(0, -1)
+        next-num = next-num.slice(0, -1)
+      }
       let supp_and_num = _combine-supplement-numbering(
         supplement: heading-of-ref.supplement,
         numbering-value: num,
