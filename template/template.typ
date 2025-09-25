@@ -154,7 +154,7 @@
     if it.element.func() == heading {
       // Handle references to headings
       set text(style: "italic")
-      show: it => underline(it, stroke: 0.5pt, offset: 1pt)
+      // show: it => underline(it, stroke: 0.5pt, offset: 1pt)
       if it.element.numbering == none {
         // Use the supplement when there is no numbering
         link(it.target, it.element.supplement)
@@ -402,8 +402,9 @@
   }
   set page(numbering: page-numbering, footer: context [
     #set align(center)
-    #set text(8pt)
-    #numbering(page-numbering, ..counter(page).get())]) if reset-page-numbering
+    #set text(10pt)
+    #numbering(page-numbering, ..counter(page).get())
+  ])
 
   body
 }
