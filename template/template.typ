@@ -132,6 +132,15 @@
     numbering: page-numbering,
   ) if not _documentation
 
+  // Page footer
+  set page(
+    footer: context [
+      #set align(center)
+      #set text(10pt)
+      #numbering(page.numbering, ..counter(page).get())
+    ],
+  )
+
   // Lists
   set list(indent: 1em)
   set enum(indent: 1em)
@@ -396,15 +405,13 @@
   // Reset page numbering
   if reset-page-numbering {
     if not new-page {
-      panic("Cannot reset page numbering if new-page is false")
+      panic(
+        "Resetting the page numbering requires that the section starts with a new page (i.e. `reset-page-numbering` == true requires `new-page` == true)",
+      )
     }
     counter(page).update(1)
   }
-  set page(numbering: page-numbering, footer: context [
-    #set align(center)
-    #set text(10pt)
-    #numbering(page-numbering, ..counter(page).get())
-  ])
+  set page(numbering: page-numbering) if reset-page-numbering
 
   body
 }
