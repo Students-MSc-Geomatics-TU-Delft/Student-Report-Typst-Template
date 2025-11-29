@@ -243,8 +243,8 @@
   }
 
   // Logos
-  if type(logos) != array { logos = (logos,) }
   if logos != none {
+    if type(logos) != array { logos = (logos,) }
     let logos-spaces = (1fr,) + (3fr,) * (logos.len() - 1) + (1fr,)
     let logos-alignments = (center + bottom,) * logos.len()
     let logos-content = cover-image-block(
